@@ -1,7 +1,7 @@
 # PSR Autoloader
 I wrote small PSR-4 Autoloader to use with my projects. Feel free to use it in yours.
 
-#####Warning: This class uses PHP version 7.4 syntax
+####Warning: This class uses PHP version 7.4 syntax
 
 Some example codes:
 
