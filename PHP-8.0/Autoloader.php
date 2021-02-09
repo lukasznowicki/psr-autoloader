@@ -1,8 +1,8 @@
 <?php
 /**
- * Minimal requirements for this version: PHP 7.0
+ * Minimal requirements for this version: PHP 8.0
  *
- * @version   0.4.1
+ * @version   1.0.0
  * @author    Łukasz Nowicki <kontakt@phylax.pl>
  * @copyright Łukasz Nowicki
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPLv3 or later
@@ -29,7 +29,7 @@ class Autoloader {
      *
      * @var array
      */
-    protected $namespaces = [];
+    protected array $namespaces = [];
 
     /**
      * Autoloader constructor. You may assign namespace/directory pair in the constructor.
@@ -38,6 +38,7 @@ class Autoloader {
      * This method will use standard class methods to add the namespace/directory into
      * the stack, so both will be sanitized as in addNamespace() method.
      *
+     * @param array $classStack Associative array, containing key -> value pairs, where key is a namespace and value is a directory
      * @param string $namespace Namespace you want to set
      * @param string $directory Directory you want to set
      * @param bool $exitOnFail Set this to false, if you have any fallback for class loader
@@ -46,8 +47,13 @@ class Autoloader {
      * @see Autoloader::addNamespace()
      * @see Autoloader::$namespaces
      */
-    public function __construct( string $namespace = '', string $directory = '', bool $exitOnFail = true ) {
-        if ( ( '' !== $namespace ) && ( '' !== $directory ) ) {
+    public function __construct(
+        protected bool $exitOnFail,
+        array $classStack = [],
+        string $namespace = '',
+        string $directory = '',
+    ) {
+        if ( ! is_null( $namespace ) && ! is_null( $directory ) ) {
             $this->registerHandler( $exitOnFail );
             $this->addNamespace( $namespace, $directory );
         }
@@ -173,13 +179,13 @@ class Autoloader {
      *
      * @param string $class
      *
-     * @return string
+     * @return string|null
      *
      * @see Autoloader::$namespaces
      * @see Autoloader::checkMappedFile()
      * @see Autoloader::callFile()
      */
-    public function classLoader( string $class ): string {
+    public function classLoader( string $class ): ?string {
         $classPrefix = $class;
         while ( false !== $position = strrpos( $classPrefix, '\\' ) ) {
             $classPrefix = substr( $class, 0, $position + 1 );
@@ -191,7 +197,7 @@ class Autoloader {
             $classPrefix = rtrim( $classPrefix, '\\' );
         }
 
-        return '';
+        return null;
     }
 
     /**
@@ -202,14 +208,14 @@ class Autoloader {
      * @param string $namespace
      * @param string $relClass
      *
-     * @return string
+     * @return string|null
      *
      * @see Autoloader::$namespaces
      * @see Autoloader::callFile()
      */
-    protected function checkMappedFile( string $namespace, string $relClass ): string {
+    protected function checkMappedFile( string $namespace, string $relClass ): ?string {
         if ( false === isset( $this->namespaces[ $namespace ] ) ) {
-            return '';
+            return null;
         }
         foreach ( $this->namespaces[ $namespace ] as $baseDir ) {
             $filePath = $baseDir . str_replace( '\\', DIRECTORY_SEPARATOR, $relClass ) . '.php';
@@ -218,7 +224,7 @@ class Autoloader {
             }
         }
 
-        return '';
+        return null;
     }
 
     /**

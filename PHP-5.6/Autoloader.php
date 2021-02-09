@@ -2,7 +2,7 @@
 /**
  * Minimal requirements for this version: PHP 5.6
  *
- * @version   0.3.0
+ * @version   0.3.1
  * @author    Łukasz Nowicki <kontakt@phylax.pl>
  * @copyright Łukasz Nowicki
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPLv3 or later
