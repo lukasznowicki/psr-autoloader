@@ -145,9 +145,8 @@ class Autoloader {
             '\\',
             '/',
         ], $inUse, $string );
-        $string = rtrim( $string, $inUse ) . $inUse;
 
-        return $string;
+        return rtrim( $string, $inUse ) . $inUse;
     }
 
     /**
@@ -228,7 +227,6 @@ class Autoloader {
      * @param string $filePath
      *
      * @return bool
-     * @noinspection PhpIncludeInspection
      */
     protected function callFile( string $filePath ): bool {
         if ( is_readable( $filePath ) && ! is_dir( $filePath ) ) {

@@ -1,7 +1,7 @@
 # PSR Autoloader
 PSR-4 compatible Autoloader.
 I split this project into few classes, to preserve backward compatibility with previous PHP versions. I use 7.4 mostly all of the time, but I realize, that there are many servers with the outdated PHP versions. And since I use this class to my WordPress plugin/theme projects, I decided to use older versions as well.
-You may find desired versions in the proper directories. At this time, you may find four versions, for PHP 5.6, 7.0, 7.1 and 7.4. Of course those versions are upward compatible, so you may use 5.6 version running it with PHP 7.4.
+You may find desired versions in the proper directories. At this time, you may find four versions, for PHP 5.6, 7.0, 7.1, 7.4 and 8.0. Of course those versions are upward compatible, so you may use 5.6 version running it with PHP 7.4.
 
 Some example codes:
 ```php
@@ -31,8 +31,9 @@ new \Phylax\Autoloader( 'OtherStuff', __DIR__ . DIRECTORY_SEPARATOR . 'Vendors' 
 ## Author and featured sites:
 * Łukasz Nowicki <https://lukasznowicki.info/> it's my blog, with some WordPress/WooCommerce tips
 * [Kurs programowania WordPress](https://wpkurs.pl/) it's my WordPress developing course, in polish
-* [Strony internetowe, aplikacje](https://phylax.pl/) and this is my company's page.
+* [Strony internetowe, aplikacje](https://phylax.pl/) this is my company's page
+* [GrubasFit](https://grubasfit.pl/) and it's my personal blog about slimming in polish.
 
 ## License
-Copyright 2016-2020 phylax.pl Łukasz Nowicki <https://phylax.pl/>
+Copyright 2016-2021 phylax.pl Łukasz Nowicki <https://phylax.pl/>
 Licensed under the GPLv2 or later: <http://www.gnu.org/licenses/gpl-2.0.html>

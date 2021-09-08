@@ -12,6 +12,7 @@
 namespace Phylax;
 
 use Exception;
+
 use const DIRECTORY_SEPARATOR;
 
 /**
@@ -38,10 +39,10 @@ class Autoloader {
      * This method will use standard class methods to add the namespace/directory into
      * the stack, so both will be sanitized as in addNamespace() method.
      *
-     * @param array $classStack Associative array, containing key -> value pairs, where key is a namespace and value is a directory
-     * @param string $namespace Namespace you want to set
-     * @param string $directory Directory you want to set
-     * @param bool $exitOnFail Set this to false, if you have any fallback for class loader
+     * @param  array  $classStack  Associative array, containing key -> value pairs, where key is a namespace and value is a directory
+     * @param  string  $namespace  Namespace you want to set
+     * @param  string  $directory  Directory you want to set
+     * @param  bool  $exitOnFail  Set this to false, if you have any fallback for class loader
      *
      * @see Autoloader::registerHandler()
      * @see Autoloader::addNamespace()
@@ -53,9 +54,16 @@ class Autoloader {
         string $namespace = '',
         string $directory = '',
     ) {
-        if ( ! is_null( $namespace ) && ! is_null( $directory ) ) {
-            $this->registerHandler( $exitOnFail );
-            $this->addNamespace( $namespace, $directory );
+        if ( ( ! is_null( $namespace ) && ! is_null( $directory ) ) || ( count( $classStack ) > 0 ) ) {
+            $this->registerHandler( $this->exitOnFail );
+            if ( ! is_null( $namespace ) ) {
+                $this->addNamespace( $namespace, $directory );
+            }
+            if ( count( $classStack ) > 0 ) {
+                foreach ( $classStack as $csNamespace => $csDirectory ) {
+                    $this->addNamespace( $csNamespace, $csDirectory );
+                }
+            }
         }
     }
 
@@ -64,7 +72,7 @@ class Autoloader {
      * spl_autoload_register function). You may choose, whether you want
      * your application to exit on fail (default) or not.
      *
-     * @param bool $exitOnFail Set this to false, if you have any fallback for class loader
+     * @param  bool  $exitOnFail  Set this to false, if you have any fallback for class loader
      *
      * @return bool
      *
@@ -76,7 +84,7 @@ class Autoloader {
                 $this,
                 'classLoader',
             ] );
-        } catch ( Exception $exception ) {
+        } catch ( Exception ) {
             if ( $exitOnFail ) {
                 exit;
             }
@@ -94,9 +102,9 @@ class Autoloader {
      * namespaces (you may, but you should not provide \ or /) and valid directory
      * separator for current operating system, using PHP constant DIRECTORY_SEPARATOR.
      *
-     * @param string $namespace Namespace you want to set
-     * @param string $directory Directory you want to set
-     * @param bool $prepend If you want to add the namespace/directory pair in front of the stack, just set it to true.
+     * @param  string  $namespace  Namespace you want to set
+     * @param  string  $directory  Directory you want to set
+     * @param  bool  $prepend  If you want to add the namespace/directory pair in front of the stack, just set it to true.
      *
      * @return bool
      *
@@ -124,7 +132,7 @@ class Autoloader {
      * / and \ characters with the valid one \. So you may use directory as
      * the namespace as well. Anyway, you should not, because it's not pretty.
      *
-     * @param string $namespace
+     * @param  string  $namespace
      *
      * @return string
      *
@@ -138,8 +146,8 @@ class Autoloader {
      * This method will change all / and \ occurrences with the provided
      * character.
      *
-     * @param string $string String to find in and replace the character
-     * @param string $inUse String to be a replacement
+     * @param  string  $string  String to find in and replace the character
+     * @param  string  $inUse  String to be a replacement
      *
      * @return string
      *
@@ -151,9 +159,8 @@ class Autoloader {
             '\\',
             '/',
         ], $inUse, $string );
-        $string = rtrim( $string, $inUse ) . $inUse;
 
-        return $string;
+        return rtrim( $string, $inUse ) . $inUse;
     }
 
     /**
@@ -162,7 +169,7 @@ class Autoloader {
      * use / because it works for both Linux and Windows. We do that
      * because I want everything to looks pretty.
      *
-     * @param string $directory
+     * @param  string  $directory
      *
      * @return string
      *
@@ -177,7 +184,7 @@ class Autoloader {
      * namespaces list. It will check every possible combination until
      * find proper file (will be loaded) or fail.
      *
-     * @param string $class
+     * @param  string  $class
      *
      * @return string|null
      *
@@ -205,8 +212,8 @@ class Autoloader {
      * class using callFile. If it find a proper combination, then
      * a class file will be loaded.
      *
-     * @param string $namespace
-     * @param string $relClass
+     * @param  string  $namespace
+     * @param  string  $relClass
      *
      * @return string|null
      *
@@ -231,10 +238,9 @@ class Autoloader {
      * This method will load the class file, if it is readable
      * and it is not a directory, which is obvious.
      *
-     * @param string $filePath
+     * @param  string  $filePath
      *
      * @return bool
-     * @noinspection PhpIncludeInspection
      */
     protected function callFile( string $filePath ): bool {
         if ( is_readable( $filePath ) && ! is_dir( $filePath ) ) {

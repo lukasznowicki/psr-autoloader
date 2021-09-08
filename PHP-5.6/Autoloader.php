@@ -100,8 +100,8 @@ class Autoloader {
      * @see Autoloader::prepareDirectory()
      */
     public function addNamespace( $namespace, $directory, $prepend = false ) {
-        $namespace = (string) $this->prepareNamespace( $namespace );
-        $directory = (string) $this->prepareDirectory( $directory );
+        $namespace = $this->prepareNamespace( $namespace );
+        $directory = $this->prepareDirectory( $directory );
         $prepend   = (bool) $prepend;
         if ( ! isset( $this->namespaces[ $namespace ] ) ) {
             $this->namespaces[ $namespace ] = [];
@@ -151,9 +151,8 @@ class Autoloader {
             '\\',
             '/',
         ], $inUse, $string );
-        $string = rtrim( $string, $inUse ) . $inUse;
 
-        return $string;
+        return rtrim( $string, $inUse ) . $inUse;
     }
 
     /**
@@ -239,7 +238,6 @@ class Autoloader {
      * @param string $filePath
      *
      * @return bool
-     * @noinspection PhpIncludeInspection
      */
     protected function callFile( $filePath ) {
         $filePath = (string) $filePath;
