@@ -1,7 +1,7 @@
 # PSR Autoloader
 PSR-4 compatible Autoloader.
-I split this project into few classes, to preserve backward compatibility with previous PHP versions. I use 7.4 mostly all of the time, but I realize, that there are many servers with the outdated PHP versions. And since I use this class to my WordPress plugin/theme projects, I decided to use older versions as well.
-You may find desired versions in the proper directories. At this time, you may find four versions, for PHP 5.6, 7.0, 7.1, 7.4 and 8.0. Of course those versions are upward compatible, so you may use 5.6 version running it with PHP 7.4.
+I split this project into few classes, to preserve backward compatibility with previous PHP versions. I use 8/8.1 mostly all the time, but I realize, that there are many servers with the outdated PHP versions. And since I use this class to my WordPress plugin/theme projects, I decided to use older versions as well.
+You may find desired versions in the proper directories. At this time, you may find four versions, for PHP 5.6, 7.0, 7.1, 7.4, 8.0 and 8.1. Of course these versions are upward compatible, so you may use 5.6 version running it with PHP 7.4.
 
 Some example codes:
 ```php
@@ -18,7 +18,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR;
 new \Phylax\Autoloader( 'OtherStuff', __DIR__ . DIRECTORY_SEPARATOR . 'Vendors' . DIRECTORY_SEPARATOR . 'OtherStuff' );
 ```
 
-Of course it is always good to check, if class is/is not available. It's possible, e.g. in a WordPress environment where you can find many plugins and themes.
+Of course, it is always good to check, if class is/is not available. It's possible, e.g. in a WordPress environment where you can find many plugins and themes.
 For example:
 
 ```php

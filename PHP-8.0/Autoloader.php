@@ -121,7 +121,7 @@ class Autoloader {
         if ( $prepend ) {
             array_unshift( $this->namespaces[ $namespace ], $directory );
         } else {
-            array_push( $this->namespaces[ $namespace ], $directory );
+            $this->namespaces[ $namespace ][] = $directory;
         }
 
         return true;
